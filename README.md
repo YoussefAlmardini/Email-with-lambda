@@ -5,6 +5,7 @@ Collection of email to manage user's actions through the financial-lease mobile 
 ## Requirements
 * [Aws-cli.](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 * [NPM.](https://nodejs.org/en/download/)
+* Run `npm install`.
 ## Create a template
 
 - Add into the directory `templates` a HTML template you want to manage.
