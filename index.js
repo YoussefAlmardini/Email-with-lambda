@@ -2,6 +2,8 @@
 
 const fs = require("fs");
 const mustache = require("mustache");
+const templates = require("./templates");
+const templateGenerator = require("./templateGenerator");
 
 const generate_email_body = (emailBody) => `
     <html>
@@ -22,18 +24,18 @@ const generate_email_body = (emailBody) => `
 `;
 
 const sign_up_message = async(event) => {
-    const template = fs.readFileSync("./templates/ConfirmSignUp.html", "utf8");
-
-    let email = event.request.userAttributes.email;
+    let template = templateGenerator(templates.MAIN, templates.CONFIRM_SIGN_UP);
     let code = event.request.codeParameter;
 
     event.response = {
-        emailSubject: "Confirm your sign up",
+        emailSubject: "Bevestig je account",
         emailMessage: mustache.render(template, {
-            emailBody: email,
-            verificationCode: code
+            subject: "Je activatie code staat klaar!",
+            body: "Welkom bij financiallease app: Activeer je account om volledig gebruiken te maken van onze app services!",
+            activationCode: code
         })
     }
+
     return event
 }
 const admin_create_user_message = async(event) => {
@@ -46,12 +48,18 @@ const admin_create_user_message = async(event) => {
     return event
 }
 const resend_code_message = async(event) => {
-    let email = event.request.userAttributes.username;
+    let template = templateGenerator(templates.MAIN, templates.RESEND_CODE_MESSAGE);
     let code = event.request.codeParameter;
+
     event.response = {
-        emailSubject: "Resend code",
-        emailMessage: generate_email_body("<p>Your username is " + email + " and code is " + code + "</p>")
+        emailSubject: "Nieuw activatiecode",
+        emailMessage: mustache.render(template, {
+            subject: "Je activatie code staat klaar!",
+            body: "Nieuwe activatiecode is aangevraagd, gebruik de code hieronder om je account te actieveren.",
+            activationCode: code
+        })
     }
+
     return event
 }
 const forgot_password = async(event) => {
