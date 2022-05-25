@@ -22,7 +22,7 @@ const generate_email_body = (emailBody) => `
 `;
 
 const sign_up_message = async(event) => {
-    const template = fs.readFileSync("./templates/confirmSignUp.html");
+    const template = fs.readFileSync("./templates/ConfirmSignUp.html", "utf8");
 
     let email = event.request.userAttributes.email;
     let code = event.request.codeParameter;
