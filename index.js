@@ -28,10 +28,10 @@ const sign_up_message = async(event) => {
     let code = event.request.codeParameter;
 
     event.response = {
-        emailSubject: "Bevestig je account",
+        emailSubject: "Jouw verificatiecode voor de app",
         emailMessage: mustache.render(template, {
-            subject: "Je activatie code staat klaar!",
-            body: "Welkom bij financiallease app: Activeer je account om volledig gebruiken te maken van onze app services!",
+            title: "Bevestig je account",
+            preHeader: "Bevestig je account met de verificatiecode",
             activationCode: code
         })
     }
@@ -52,10 +52,10 @@ const resend_code_message = async(event) => {
     let code = event.request.codeParameter;
 
     event.response = {
-        emailSubject: "Nieuw activatiecode",
+        emailSubject: "Jouw verificatiecode voor de app",
         emailMessage: mustache.render(template, {
-            subject: "Je activatie code staat klaar!",
-            body: "Nieuwe activatiecode is aangevraagd, gebruik de code hieronder om je account te actieveren.",
+            title: "Bevestig je account",
+            preHeader: "Bevestig je account met de verificatiecode",
             activationCode: code
         })
     }
@@ -63,12 +63,18 @@ const resend_code_message = async(event) => {
     return event
 }
 const forgot_password = async(event) => {
-    let email = event.request.usernameParameter;
+    let template = templateGenerator(templates.MAIN, templates.FORGET_PASSWORD);
     let code = event.request.codeParameter;
+
     event.response = {
-        emailSubject: "Forgot password",
-        emailMessage: generate_email_body("<p>Your forgot password code is " + code + "</p>")
+        emailSubject: "Wachtwoord vergeten",
+        emailMessage: mustache.render(template, {
+            title: "Wachtwoord vergeten",
+            preHeader: "Hierbij de verificatiecode om je wachtwoord te resetten",
+            activationCode: code
+        })
     }
+
     return event
 }
 const update_user_attribute_message = async(event) => {
